@@ -4,6 +4,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.selenium.DriverFactory;
+import com.voluum.page.MenuItemEnum;
 import com.voluum.page.VoluumBackOfficePage;
 import com.voluum.page.VoluumHomePage;
 import com.voluum.page.VoluumLoginPage;
@@ -46,7 +47,10 @@ public class VoluumHomePageTestWebDriver extends DriverFactory{
 						.setPassword("halflife")
 						.Login();
 						//wait needs to be added here!!
-						setExplicitWait(".pill.sign-out");					
+						setExplicitWait(".pill.sign-out");	
+						//experimental
+//						voluumBackOfficePage.clickMenuOption(MenuItemEnum.CAMPAIGNS);
+//						wait(5000);
 						voluumBackOfficePage.logout();
 		
 	}
