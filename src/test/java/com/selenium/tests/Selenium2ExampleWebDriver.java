@@ -17,7 +17,7 @@ public class Selenium2ExampleWebDriver extends DriverFactory {
 	public static WebDriver driver;
 
 	private static final String VOLUUM_LOGO_XPATH = "//div[@class='logo']";
-
+	
 	@Test
 	public void CheckIsAliveTest() {
 
