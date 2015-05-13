@@ -9,9 +9,14 @@ import com.selenium.Page;
 public class VoluumBackOfficePage extends Page {
 	
 	@FindBy(css = ".pill.sign-out")
-	
 	private static WebElement logoutButton;
 
+
+	public static void setLogoutButton(WebElement logoutButton) {
+		VoluumBackOfficePage.logoutButton = logoutButton;
+	}
+
+	
 	public VoluumBackOfficePage(WebDriver driver) {
 		super(driver);
 		
@@ -21,8 +26,8 @@ public class VoluumBackOfficePage extends Page {
 	public VoluumLoginPage logout(){
 		
 		logoutButton.click();
-		
 		return new VoluumLoginPage(driver);
 	}
+	
 	
 }

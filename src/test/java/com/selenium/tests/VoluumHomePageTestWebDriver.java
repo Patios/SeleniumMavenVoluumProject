@@ -26,7 +26,6 @@ public class VoluumHomePageTestWebDriver extends DriverFactory{
 		voluumLoginPage = new VoluumLoginPage(getDriver());
 		voluumBackOfficePage = new VoluumBackOfficePage(getDriver());
 		
-		
 	}
 	
 	@Test(priority = 1, enabled = true)
@@ -45,11 +44,11 @@ public class VoluumHomePageTestWebDriver extends DriverFactory{
 		voluumHomePage.clickLoginButton()
 						.setLogin("patios18@gmail.com")
 						.setPassword("halflife")
-						.Login()
-						//wait needs to be added!!
-						.logout();
+						.Login();
+						//wait needs to be added here!!
+						setExplicitWait(".pill.sign-out");					
+						voluumBackOfficePage.logout();
 		
 	}
-	
 	
 }

@@ -53,6 +53,7 @@ public class VoluumLoginPage extends Page {
 	public VoluumBackOfficePage Login(){
 			
 		loginButton.click();
+		
 		return new VoluumBackOfficePage(driver);
 		
 	}
