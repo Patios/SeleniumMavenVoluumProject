@@ -1,5 +1,7 @@
 package localhost.poligon;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
@@ -12,7 +14,8 @@ import org.testng.annotations.Test;
 import com.google.common.base.Function;
 
 public class SeleniumPoligon {
-
+	
+	private static Log log = LogFactory.getLog(SeleniumPoligon.class);
 	public static WebDriver driver;
 	public static WebElement element;
 	public static final String PAGE_URL="http://www.voluum.com";
@@ -44,7 +47,7 @@ public class SeleniumPoligon {
 		waitForElementExists("//div[@class='logo']", 10);
 
 		// Close the browser
-
+		log.info("END OF TESTS");
 		driver.quit();
 	}
 

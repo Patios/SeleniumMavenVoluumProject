@@ -24,9 +24,7 @@
     <version>1.0-SNAPSHOT</version>
     <modelVersion>4.0.0</modelVersion>
 
-    <name>Selenium Maven Template</name>
-    <description>A Maven Template For Selenium</description>
-    <url>http://www.lazerycode.com</url>
+    <name>SeleniumMavenVoluumProject</name>
 
     <licenses>
         <license>
@@ -160,4 +158,5 @@
             </build>
         </profile>
     </profiles>
+    <url>https://voluum.com/</url>
 </project>

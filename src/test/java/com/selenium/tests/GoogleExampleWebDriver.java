@@ -1,6 +1,7 @@
-package com.lazerycode.selenium.tests;
+package com.selenium.tests;
 
-import com.lazerycode.selenium.DriverFactory;
+import com.selenium.DriverFactory;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
