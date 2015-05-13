@@ -28,6 +28,7 @@ public class DriverFactory {
 	private static Log log = LogFactory.getLog(DriverFactory.class);
 	private static List<WebDriver> webDriverPool = Collections.synchronizedList(new ArrayList<WebDriver>());
 	private static ThreadLocal<WebDriver> driverThread;
+	private static WebElement myDynamicElement;
 
 	public DriverFactory() {
 		setBinaryVariables();
@@ -66,6 +67,7 @@ public class DriverFactory {
 				return webDriver;
 			}
 		};
+		getDriver().manage().window().maximize();
 	}
 
 	public static WebDriver getDriver() {
@@ -85,9 +87,12 @@ public class DriverFactory {
     }
     
     protected void setExplicitWait(String cssSelector){
-    	WebElement myDynamicElement = new WebDriverWait(getDriver(), 20).until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(cssSelector)));
+    	myDynamicElement = new WebDriverWait(getDriver(), 20).until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(cssSelector)));
     }
 
+    protected void setExplicitWait(String cssSelector, int timeInSeconds){
+    	myDynamicElement = new WebDriverWait(getDriver(), timeInSeconds).until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(cssSelector)));
+    }
 	@AfterMethod
 	public static void clearCookies() {
 		getDriver().manage().deleteAllCookies();
