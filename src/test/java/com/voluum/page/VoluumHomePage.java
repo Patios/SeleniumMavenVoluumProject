@@ -18,8 +18,7 @@ public class VoluumHomePage extends Page {
 	}
 
 	public VoluumHomePage(WebDriver driver, String url) {
-		super(driver);
-		this.url = url;
+		super(driver,url);
 
 	}
 	

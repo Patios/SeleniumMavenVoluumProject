@@ -27,6 +27,8 @@ public class DriverFactory {
 	public DriverFactory() {
 		setBinaryVariables();
 	}
+	
+	protected void setUpTest(){};
 
 	private void setBinaryVariables() {
 		for (DriverType driverType : DriverType.values()) {
