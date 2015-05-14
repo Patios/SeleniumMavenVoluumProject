@@ -11,11 +11,13 @@ import com.voluum.page.VoluumHomePage;
 import com.voluum.page.VoluumLoginPage;
 
 public class VoluumHomePageTestWebDriver extends DriverFactory {
-
+	
+	String redirectedURL;
 	VoluumHomePage voluumHomePage;
 	VoluumLoginPage voluumLoginPage;
 	VoluumBackOfficePage voluumBackOfficePage;
 	VoluumCampaignsPage voluumCampaignsPage;
+	private static String postbackURL = "http://7ctnf.voluumtrk.com/postback?cid=%s";
 
 	@Override
 	protected void setUpTest() {
@@ -55,7 +57,7 @@ public class VoluumHomePageTestWebDriver extends DriverFactory {
 		//edit exisiting campaign
 		String campaignURL = voluumCampaignsPage.getSelectedCampaignUrl("ZeroPark - Poland - Selenium New Campaign 2015-05-14 1431608737454");
 		navigateToUrl(campaignURL);
-		String redirectedURL = getCurrentUrl();
+		redirectedURL = getCurrentUrl();
 		System.out.println(redirectedURL);
 		
 		//createNewCapaign
@@ -66,5 +68,23 @@ public class VoluumHomePageTestWebDriver extends DriverFactory {
 //						   .saveCampaign();
 //		voluumBackOfficePage.logout();
 	}
-
+	
+	@Test(priority=3, enabled = true)
+	public void shouldPostbackCampaignURL(){
+		
+		navigateToUrl(redirectedURL);
+		waitForPageLoad();
+		
+		String cid = redirectedURL.substring(26);
+		//to remove
+		System.out.println("Cid: "+cid);
+		//
+		
+		//to remove
+		System.out.println(String.format(postbackURL, cid));
+		//
+		navigateToUrl(String.format(postbackURL, cid));
+		waitForPageLoad();
+	
+	}
 }

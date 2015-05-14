@@ -10,10 +10,12 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
@@ -112,6 +114,20 @@ public class DriverFactory {
     protected void setExplicitWait(String cssSelector, int timeInSeconds){
     	myDynamicElement = new WebDriverWait(getDriver(), timeInSeconds).until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(cssSelector)));
     }
+    
+    public void waitForPageLoad() {
+
+        Wait<WebDriver> wait = new WebDriverWait(getDriver(), 20);
+        ExpectedCondition<Boolean> e = new ExpectedCondition<Boolean>() {
+            public Boolean apply(WebDriver driver) {
+                System.out.println("Current Window State       : "+ String.valueOf(((JavascriptExecutor) driver).executeScript("return document.readyState")));
+                return String.valueOf(((JavascriptExecutor) driver).executeScript("return document.readyState"))
+                    .equals("complete");
+            }
+        };
+        wait.until(e);
+    }
+    
 	@AfterMethod
 	public static void clearCookies() {
 		getDriver().manage().deleteAllCookies();
