@@ -6,6 +6,7 @@ import org.testng.annotations.Test;
 import com.selenium.DriverFactory;
 import com.voluum.page.MenuItemEnum;
 import com.voluum.page.VoluumBackOfficePage;
+import com.voluum.page.VoluumCampaignsPage;
 import com.voluum.page.VoluumHomePage;
 import com.voluum.page.VoluumLoginPage;
 
@@ -14,6 +15,7 @@ public class VoluumHomePageTestWebDriver extends DriverFactory {
 	VoluumHomePage voluumHomePage;
 	VoluumLoginPage voluumLoginPage;
 	VoluumBackOfficePage voluumBackOfficePage;
+	VoluumCampaignsPage voluumCampaignsPage;
 
 	@Override
 	protected void setUpTest() {
@@ -25,6 +27,7 @@ public class VoluumHomePageTestWebDriver extends DriverFactory {
 		voluumHomePage = new VoluumHomePage(getDriver(), "http://voluum.com");
 		voluumLoginPage = new VoluumLoginPage(getDriver());
 		voluumBackOfficePage = new VoluumBackOfficePage(getDriver());
+		voluumCampaignsPage = new VoluumCampaignsPage(getDriver());
 
 	}
 
@@ -44,17 +47,17 @@ public class VoluumHomePageTestWebDriver extends DriverFactory {
 	public void shouldLoginToBackOffice() {
 
 		voluumHomePage.clickLoginButton();
-				setExplicitWait("#username");
-		voluumLoginPage.setLogin("patios18@gmail.com")
-				.setPassword("halflife")
-				.Login();
-		// wait needs to be added here!!
+		setExplicitWait("#username");
+		voluumLoginPage.setLogin("patios18@gmail.com").setPassword("halflife").Login();
 		setExplicitWait(".pill.sign-out");
-		// experimental
 		voluumBackOfficePage.clickMenuOption(MenuItemEnum.CAMPAIGNS);
-		wait(5000);
+		//createNewCapaign
+		voluumCampaignsPage.createNewCampaign()
+						   .fillCampaignNameField("Poland")
+						   .selectDestination(1)
+						   .fillUrlCampaignDestinationAddress()
+						   .saveCampaign();
 		voluumBackOfficePage.logout();
-
 	}
 
 }

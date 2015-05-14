@@ -4,7 +4,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-
 import com.selenium.Page;
 
 public class VoluumBackOfficePage extends Page {
@@ -13,7 +12,7 @@ public class VoluumBackOfficePage extends Page {
 	private static WebElement logoutButton;
 	
 	private static String MENU_XPATH ="//*[contains(text(),'%s')]";
-	
+	private static String CSS_SIGN_OUT =".pill.sign-out";
 	
 
 	public static void setLogoutButton(WebElement logoutButton) {
@@ -23,13 +22,14 @@ public class VoluumBackOfficePage extends Page {
 	
 	public VoluumBackOfficePage(WebDriver driver) {
 		super(driver);
-		
-
+	
 	}
 
 	public VoluumLoginPage logout(){
-		
+	
+		fluentWait(By.cssSelector(CSS_SIGN_OUT));	
 		logoutButton.click();
+		alert.clickAcceptInAlert();
 		return new VoluumLoginPage(driver);
 	}
 	
