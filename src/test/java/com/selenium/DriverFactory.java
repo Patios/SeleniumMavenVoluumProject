@@ -12,6 +12,7 @@ import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterMethod;
@@ -82,8 +83,26 @@ public class DriverFactory {
         }
     }
     
-    protected void setImplicitlyWait(int t){
+    protected static void setImplicitlyWait(int t){
     	getDriver().manage().timeouts().implicitlyWait(t, TimeUnit.SECONDS);
+    }
+    
+    public static void navigateToUrl(String url){
+    	getDriver().navigate().to(url);
+    	setImplicitlyWait(5);
+    }
+    
+    public static String getCurrentUrl(){
+    	String currentURL = null;
+    	WebDriverWait wait = new WebDriverWait(getDriver(), 10);
+    	   ExpectedCondition<Boolean> e = new ExpectedCondition<Boolean>() {
+    	          public Boolean apply(WebDriver d) {
+    	            return (d.getCurrentUrl() != null);
+    	          }
+    	        };
+    	wait.until(e);
+    	currentURL = getDriver().getCurrentUrl();
+       	return currentURL;
     }
     
     protected void setExplicitWait(String cssSelector){

@@ -18,6 +18,8 @@ public class VoluumCampaignsPage extends Page {
 	private static final String CSS_NEW_CAPMAIGN = ".button.button-new";
 	private static final String CSS_COUNTRY = "#country";
 	private static final String DESTINATION_RADIO_BUTTON_ID = "redirect-target-";
+	private static final String GENERATED_CAMPAIGN_URL ="#url";
+	private static final String CAMPAIGN_FULL_NAME ="//*[contains (text(),'%s')]";
 
 	@FindBy(css = ".button.button-new")
 	private static WebElement newCampaignButton;
@@ -33,6 +35,9 @@ public class VoluumCampaignsPage extends Page {
 	
 	@FindBy(css = "#direct-redirect-url")
 	private static WebElement campaignDestinationURL;
+	
+	@FindBy(css = ".button.button-edit")
+	private static WebElement editCampaignButton;
 	
 	public VoluumCampaignsPage(WebDriver driver) {
 		super(driver);
@@ -115,5 +120,16 @@ public class VoluumCampaignsPage extends Page {
 		alert.clickAcceptInAlert();
 		return this;
 
+	}
+	public String getSelectedCampaignUrl(String campaignName){
+		
+		fluentWait(By.cssSelector(".button.button-edit"));
+		final String xPath = String.format(CAMPAIGN_FULL_NAME,campaignName);
+		driver.findElement(By.xpath(xPath)).click();
+		editCampaignButton.click();
+		fluentWait(By.cssSelector(CSS_COUNTRY));
+		final String url  =   driver.findElement(By.cssSelector(GENERATED_CAMPAIGN_URL)).getAttribute("value");
+		System.out.println(url);
+		return url;
 	}
 }

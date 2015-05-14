@@ -51,13 +51,20 @@ public class VoluumHomePageTestWebDriver extends DriverFactory {
 		voluumLoginPage.setLogin("patios18@gmail.com").setPassword("halflife").Login();
 		setExplicitWait(".pill.sign-out");
 		voluumBackOfficePage.clickMenuOption(MenuItemEnum.CAMPAIGNS);
+		
+		//edit exisiting campaign
+		String campaignURL = voluumCampaignsPage.getSelectedCampaignUrl("ZeroPark - Poland - Selenium New Campaign 2015-05-14 1431608737454");
+		navigateToUrl(campaignURL);
+		String redirectedURL = getCurrentUrl();
+		System.out.println(redirectedURL);
+		
 		//createNewCapaign
-		voluumCampaignsPage.createNewCampaign()
-						   .fillCampaignNameField("Poland")
-						   .selectDestination(1)
-						   .fillUrlCampaignDestinationAddress()
-						   .saveCampaign();
-		voluumBackOfficePage.logout();
+//		voluumCampaignsPage.createNewCampaign()	
+//						   .fillCampaignNameField("Poland")
+//						   .selectDestination(1)
+//						   .fillUrlCampaignDestinationAddress()
+//						   .saveCampaign();
+//		voluumBackOfficePage.logout();
 	}
 
 }

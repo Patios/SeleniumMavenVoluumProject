@@ -35,7 +35,7 @@ public class VoluumBackOfficePage extends Page {
 	
 	public void clickMenuOption(MenuItemEnum menuOption){
 		
-		final String xPath = String.format("//*[contains(text(),'%s')]", menuOption.getName());
+		final String xPath = String.format(MENU_XPATH, menuOption.getName());
 		driver.findElements(By.xpath(xPath)).get(0).click();
 		
 	}
