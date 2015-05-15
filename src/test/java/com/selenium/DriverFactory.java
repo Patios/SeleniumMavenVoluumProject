@@ -21,6 +21,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Listeners;
+import org.testng.log4testng.Logger;
 
 import com.selenium.config.DriverType;
 import com.selenium.listeners.ScreenshotListener;
@@ -70,6 +71,7 @@ public class DriverFactory {
 				return webDriver;
 			}
 		};
+		
 		getDriver().manage().window().maximize();
 	}
 
@@ -85,11 +87,11 @@ public class DriverFactory {
         }
     }
     
-    protected static void setImplicitlyWait(int t){
+    protected  void setImplicitlyWait(int t){
     	getDriver().manage().timeouts().implicitlyWait(t, TimeUnit.SECONDS);
     }
     
-    public static void navigateToUrl(String url){
+    public  void navigateToUrl(String url){
     	getDriver().navigate().to(url);
     	setImplicitlyWait(5);
     }

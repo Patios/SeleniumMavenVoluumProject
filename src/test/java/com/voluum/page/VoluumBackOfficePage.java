@@ -37,7 +37,7 @@ public class VoluumBackOfficePage extends Page {
 		
 		final String xPath = String.format(MENU_XPATH, menuOption.getName());
 		driver.findElements(By.xpath(xPath)).get(0).click();
-		
+	
 	}
 	
 	

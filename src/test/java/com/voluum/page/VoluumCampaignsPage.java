@@ -1,6 +1,7 @@
 package com.voluum.page;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -20,6 +21,7 @@ public class VoluumCampaignsPage extends Page {
 	private static final String DESTINATION_RADIO_BUTTON_ID = "redirect-target-";
 	private static final String GENERATED_CAMPAIGN_URL ="#url";
 	private static final String CAMPAIGN_FULL_NAME ="//*[contains (text(),'%s')]";
+	private static final String CAMPAIGNS_ROWS = "//*[contains(text(),'ZeroPark')]";
 
 	@FindBy(css = ".button.button-new")
 	private static WebElement newCampaignButton;
@@ -48,6 +50,27 @@ public class VoluumCampaignsPage extends Page {
 		fluentWait(By.cssSelector(CSS_NEW_CAPMAIGN));
 		newCampaignButton.click();
 		return this;
+	}
+	
+	public List<WebElement> findDisplayedElements() {
+	    List <WebElement> elementOptions = driver.findElements(By.xpath(CAMPAIGNS_ROWS));
+	    List <WebElement> displayedOptions = new ArrayList<WebElement>();
+	    for (WebElement option : elementOptions) {
+	    		if (option.isDisplayed()) {
+	        	displayedOptions.add(option);
+	        }
+	    }
+	    return displayedOptions;
+	}
+	/**
+	 * To be implemented...
+	 * @return
+	 */
+	public int getCampaignVisitCounterValue(){
+		//TODO
+		int value = 0;
+		
+		return  value;
 	}
 
 	public VoluumCampaignsPage fillCampaignNameField(String country) {
