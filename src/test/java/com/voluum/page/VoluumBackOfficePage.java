@@ -11,13 +11,13 @@ public class VoluumBackOfficePage extends Page {
 	@FindBy(css = ".pill.sign-out")
 	private static WebElement logoutButton;
 	
+	@FindBy(css = ".refresh-button")
+	private static WebElement refreshButton;
+	
+	
 	private static String MENU_XPATH ="//*[contains(text(),'%s')]";
 	private static String CSS_SIGN_OUT =".pill.sign-out";
-	
 
-	public static void setLogoutButton(WebElement logoutButton) {
-		VoluumBackOfficePage.logoutButton = logoutButton;
-	}
 
 	
 	public VoluumBackOfficePage(WebDriver driver) {
@@ -30,16 +30,23 @@ public class VoluumBackOfficePage extends Page {
 		fluentWait(By.cssSelector(CSS_SIGN_OUT));	
 		logoutButton.click();
 		alert.clickAcceptInAlert();
+		waitForPageLoad();
 		return new VoluumLoginPage(driver);
+	}
+	
+	public void refreshDashboard(){
+		refreshButton.click();
+		waitForPageLoad();
+		
 	}
 	
 	public void clickMenuOption(MenuItemEnum menuOption){
 		
 		final String xPath = String.format(MENU_XPATH, menuOption.getName());
 		driver.findElements(By.xpath(xPath)).get(0).click();
+		waitForPageLoad();
 	
 	}
-	
 	
 	
 }

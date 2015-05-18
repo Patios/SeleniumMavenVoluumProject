@@ -6,12 +6,15 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.google.common.base.Function;
 
@@ -52,5 +55,16 @@ public class Page {
 		});
 		return foo;
 	};
+    public void waitForPageLoad() {
 
+        Wait<WebDriver> wait = new WebDriverWait(driver, 20);
+        ExpectedCondition<Boolean> e = new ExpectedCondition<Boolean>() {
+            public Boolean apply(WebDriver driver) {
+                System.out.println("Current Window State       : "+ String.valueOf(((JavascriptExecutor) driver).executeScript("return document.readyState")));
+                return String.valueOf(((JavascriptExecutor) driver).executeScript("return document.readyState"))
+                    .equals("complete");
+            }
+        };
+        wait.until(e);
+    }
 }

@@ -38,7 +38,9 @@ public class DriverFactory {
 		setBinaryVariables();
 	}
 	
-	protected void setUpTest(){};
+	private static void setUpTestAndMaximizeBrowserWindow(){
+		getDriver().manage().window().maximize();
+	};
 
 	private void setBinaryVariables() {
 		for (DriverType driverType : DriverType.values()) {
@@ -71,8 +73,9 @@ public class DriverFactory {
 				return webDriver;
 			}
 		};
+		setUpTestAndMaximizeBrowserWindow();
 		
-		getDriver().manage().window().maximize();
+		
 	}
 
 	public static WebDriver getDriver() {
@@ -94,6 +97,7 @@ public class DriverFactory {
     public  void navigateToUrl(String url){
     	getDriver().navigate().to(url);
     	setImplicitlyWait(5);
+    	
     }
     
     public static String getCurrentUrl(){
@@ -115,19 +119,6 @@ public class DriverFactory {
 
     protected void setExplicitWait(String cssSelector, int timeInSeconds){
     	myDynamicElement = new WebDriverWait(getDriver(), timeInSeconds).until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(cssSelector)));
-    }
-    
-    public void waitForPageLoad() {
-
-        Wait<WebDriver> wait = new WebDriverWait(getDriver(), 20);
-        ExpectedCondition<Boolean> e = new ExpectedCondition<Boolean>() {
-            public Boolean apply(WebDriver driver) {
-                System.out.println("Current Window State       : "+ String.valueOf(((JavascriptExecutor) driver).executeScript("return document.readyState")));
-                return String.valueOf(((JavascriptExecutor) driver).executeScript("return document.readyState"))
-                    .equals("complete");
-            }
-        };
-        wait.until(e);
     }
     
 	@AfterMethod

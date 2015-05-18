@@ -22,6 +22,8 @@ public class VoluumCampaignsPage extends Page {
 	private static final String GENERATED_CAMPAIGN_URL ="#url";
 	private static final String CAMPAIGN_FULL_NAME ="//*[contains (text(),'%s')]";
 	private static final String CAMPAIGNS_ROWS = "//*[contains(text(),'ZeroPark')]";
+	private static final String INTEGER_VISITS_POSITIV ="//*[contains(concat(' ', normalize-space(@class), ' '), ' cell integer visits positive ')]";
+	private static final String INTEGER_CONVERSIONS_POSITIV = "//*[contains(concat(' ', normalize-space(@class), ' '), ' cell integer conversions positive ')]";
 
 	@FindBy(css = ".button.button-new")
 	private static WebElement newCampaignButton;
@@ -63,16 +65,29 @@ public class VoluumCampaignsPage extends Page {
 	    return displayedOptions;
 	}
 	/**
-	 * To be implemented...
-	 * @return
+	 * 
+	 * @return int value from the visit cell
 	 */
-	public int getCampaignVisitCounterValue(){
-		//TODO
-		int value = 0;
+	public int getCampaignVisitValue(){
 		
+		String visits = driver.findElement(By.xpath(INTEGER_VISITS_POSITIV)).getText();
+		int value = Integer.parseInt(visits);
+		log.info("Visits value :" + value);
 		return  value;
 	}
-
+	/**
+	 * 
+	 * @return int value from conversions cell
+	 */
+	public int getCampaignConversionsValue(){
+		
+		String visits = driver.findElement(By.xpath(INTEGER_CONVERSIONS_POSITIV)).getText();
+		int value = Integer.parseInt(visits);
+		log.info("Conversions value :" + value);
+		return  value;
+	}
+	
+	
 	public VoluumCampaignsPage fillCampaignNameField(String country) {
 
 		selectCountryFromList(country);

@@ -14,20 +14,19 @@ import com.voluum.page.VoluumLoginPage;
 
 public class VoluumHomePageTestWebDriver extends DriverFactory {
 	
-	String redirectedURL;
-	VoluumHomePage voluumHomePage;
-	VoluumLoginPage voluumLoginPage;
-	VoluumBackOfficePage voluumBackOfficePage;
-	VoluumCampaignsPage voluumCampaignsPage;
+	private String campaignURL;
+	private String redirectedURL;
+	private VoluumHomePage voluumHomePage;
+	private VoluumLoginPage voluumLoginPage;
+	private VoluumBackOfficePage voluumBackOfficePage;
+	private VoluumCampaignsPage voluumCampaignsPage;
+	private int previousConversionCounter;
+	private int currentConversionCounter;
 	private static String postbackURL = "http://7ctnf.voluumtrk.com/postback?cid=%s";
 	private static final int CID_LENGTH = 24;
 	private static final String COUNTRY = "Poland";
-	private static int previosuVisitCounter , currentVisitCounter;
+	private static int previousVisitCounter , currentVisitCounter;
 
-	@Override
-	protected void setUpTest() {
-
-	}
 
 	@BeforeClass
 	public void initialize() {
@@ -45,11 +44,11 @@ public class VoluumHomePageTestWebDriver extends DriverFactory {
 	public void ShouldOpenVoluumHomePageTest() {
 
 		voluumHomePage.acceptCookie();
-		voluumHomePage.refreshPage();
+		voluumHomePage.openHomePage();
 		voluumHomePage.clickLoginButton();
 		setExplicitWait(".right>a", 20);
 		voluumLoginPage.backToVoluumHomePage();
-		voluumHomePage.refreshPage();
+		voluumHomePage.openHomePage();
 
 	}
 	/**
@@ -73,12 +72,12 @@ public class VoluumHomePageTestWebDriver extends DriverFactory {
 			.saveCampaign();
 			setImplicitlyWait(5);
 			}
-		//edit exisiting campaign
+		//edit existing campaign
 		String campaignName = voluumCampaignsPage.findDisplayedElements().get(0).getText();
-		String campaignURL = voluumCampaignsPage.getSelectedCampaignUrl(campaignName);
+		campaignURL = voluumCampaignsPage.getSelectedCampaignUrl(campaignName);
 		navigateToUrl(campaignURL);
 		redirectedURL = getCurrentUrl();
-		Assert.assertEquals(redirectedURL.substring(26).length(), CID_LENGTH,"subid has not have 24 characters!");
+		Assert.assertEquals(redirectedURL.substring(26).length(), CID_LENGTH,"Subid should has 24 characters!");
 		
 
 	}
@@ -88,23 +87,30 @@ public class VoluumHomePageTestWebDriver extends DriverFactory {
 	@Test(priority = 3, dependsOnMethods={"shouldLoginToBackOfficeAndVisitCampaign"}, enabled = true)
 	public void shouldIncrementCampaignVisit(){
 	
+		voluumHomePage.openHomePage();
 		voluumHomePage.clickLoginButton();
-		setExplicitWait("#username");
-		voluumLoginPage.setLogin(User.getName()).setPassword(User.getPassword()).Login();
 		setExplicitWait(".pill.sign-out");
 		voluumBackOfficePage.clickMenuOption(MenuItemEnum.CAMPAIGNS);
 		wait(5000);
-		
-		previosuVisitCounter = 1; // TODO getVisitCounter method returning int here !!!
-		navigateToUrl(redirectedURL);
-		waitForPageLoad();
+		previousVisitCounter = 	voluumCampaignsPage.getCampaignVisitValue();
+		navigateToUrl(campaignURL);
+		voluumHomePage.openHomePage();
 		voluumHomePage.clickLoginButton();
-		waitForPageLoad();
 		voluumBackOfficePage.clickMenuOption(MenuItemEnum.CAMPAIGNS);
-		wait(10000); 
-		currentVisitCounter = +1 ;
-
-		
+		wait(5000);
+		currentVisitCounter = voluumCampaignsPage.getCampaignVisitValue();
+		for (int i = 1; i < 10; i++) {
+			if (currentVisitCounter == previousVisitCounter) {
+				System.out.println(i + " Attempt to get increased visit value");
+				voluumBackOfficePage.refreshDashboard();
+				wait(1000);
+				currentVisitCounter = voluumCampaignsPage.getCampaignVisitValue();
+				System.out.println("Current Visit value is: " + currentConversionCounter);
+			} 
+		}
+		Assert.assertEquals(currentVisitCounter, previousVisitCounter + 1, "Visit counter after performing campaign visit should increase by 1 !");
+		voluumBackOfficePage.logout();
+	
 	}
 	
 	/**
@@ -114,17 +120,36 @@ public class VoluumHomePageTestWebDriver extends DriverFactory {
 	@Test(priority = 4, dependsOnMethods={"shouldLoginToBackOfficeAndVisitCampaign"}, enabled = true)
 	public void shouldPostbackCampaignURL(){
 		
+		voluumHomePage.openHomePage();
+		voluumHomePage.clickLoginButton();
+		setExplicitWait("#username");
+		voluumLoginPage.setLogin(User.getName()).setPassword(User.getPassword()).Login();
+		setExplicitWait(".pill.sign-out");
+		voluumBackOfficePage.clickMenuOption(MenuItemEnum.CAMPAIGNS);
+		wait(5000);
+		previousConversionCounter = voluumCampaignsPage.getCampaignConversionsValue();
 		navigateToUrl(redirectedURL);
-		waitForPageLoad();
 		String cid = redirectedURL.substring(26);
-		//to remove
 		System.out.println("Cid: "+cid);
-		//to remove
 		System.out.println(String.format(postbackURL, cid));
 		navigateToUrl(String.format(postbackURL, cid));
-		waitForPageLoad();
-		//TODO
-		// Add checking postback  in campaing conversions = 1 
+		voluumHomePage.openHomePage();
+		voluumHomePage.clickLoginButton();
+		setExplicitWait(".pill.sign-out");
+		voluumBackOfficePage.clickMenuOption(MenuItemEnum.CAMPAIGNS);
+		wait(5000);
+		currentConversionCounter = voluumCampaignsPage.getCampaignConversionsValue();
+		for (int i = 1; i < 30; i++) {
+			if (currentConversionCounter == previousConversionCounter) {
+				System.out.println(i + " Attempt");
+				voluumBackOfficePage.refreshDashboard();
+				wait(1000);
+				currentConversionCounter = voluumCampaignsPage.getCampaignConversionsValue();
+				System.out.println("Current conversion value is: " + currentConversionCounter);
+			} 
+		}
+		Assert.assertEquals(currentConversionCounter, previousConversionCounter + 1, "Conversion counter after invoking postback action should increase by 1 !");
+		voluumBackOfficePage.logout();
 	
 	}
 }

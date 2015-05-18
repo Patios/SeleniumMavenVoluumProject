@@ -22,8 +22,9 @@ public class VoluumHomePage extends Page {
 
 	}
 	
-	public void refreshPage(){
+	public void openHomePage(){
 		driver.navigate().to(HOMEPAGE_LINK);
+		waitForPageLoad();
 		
 	}
 	
@@ -33,6 +34,7 @@ public class VoluumHomePage extends Page {
 	
 	public VoluumLoginPage clickLoginButton(){
 		driver.findElement(By.cssSelector(CSS_LOGIN_BUTTON)).click();
+		waitForPageLoad();
 		return new VoluumLoginPage(driver);
 	}
 	
