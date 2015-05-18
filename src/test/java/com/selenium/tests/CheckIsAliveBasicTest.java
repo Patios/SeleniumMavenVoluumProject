@@ -29,10 +29,8 @@ public class CheckIsAliveBasicTest extends DriverFactory {
 
 		System.out.println("Page title is: " + driver.getTitle());
 		System.out.println("URL: " + driver.getCurrentUrl());
-
 		waitForElementExists(VOLUUM_LOGO_XPATH, 10);
 
-		System.out.println("Check visibility of element");
 
 	}
 

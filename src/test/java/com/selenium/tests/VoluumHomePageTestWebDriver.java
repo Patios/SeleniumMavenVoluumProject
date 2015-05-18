@@ -11,7 +11,17 @@ import com.voluum.page.VoluumBackOfficePage;
 import com.voluum.page.VoluumCampaignsPage;
 import com.voluum.page.VoluumHomePage;
 import com.voluum.page.VoluumLoginPage;
-
+/**
+ * @author patryk.nowek
+ *
+ *         <h1>VoluumHomePageTestWebDriver</h1>
+ *         <ul>
+ *         <li>Test1 scenario "ShouldOpenVoluumHomePageTest": Simple test to perform visit on home page</li>
+ *         <li>Test2 scenario "shouldLoginToBackOfficeAndVisitCampaign": New Campaign schould be able to redirect to Offer URL</li>
+ *         <li>Test3 scenario "shouldIncrementCampaignVisit" :HTTP Get request to Campaign URL should result with incrementing campaign visits counter by 1</li>
+ *         <li>Test4 scenario "shouldPostbackCampaignURL" : HTTP GET request to Postback URL with valid ClickID token should increment Campaign Conversions count by 1 </li>
+ *         </ul>
+ */
 public class VoluumHomePageTestWebDriver extends DriverFactory {
 	
 	private String campaignURL;
@@ -41,7 +51,7 @@ public class VoluumHomePageTestWebDriver extends DriverFactory {
 	 * Opening voluum.com homePage and accepting cookies policy.
 	 */
 	@Test(priority = 1, enabled = true)
-	public void ShouldOpenVoluumHomePageTest() {
+	public void shouldOpenVoluumHomePageTest() {
 
 		voluumHomePage.acceptCookie();
 		voluumHomePage.openHomePage();
@@ -53,6 +63,7 @@ public class VoluumHomePageTestWebDriver extends DriverFactory {
 	}
 	/**
 	 * Login to backOffice page and create campaign unless it was not created previously.
+	 * 
 	 */
 	@Test(priority = 2, enabled = true)
 	public void shouldLoginToBackOfficeAndVisitCampaign() {

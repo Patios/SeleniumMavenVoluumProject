@@ -125,7 +125,9 @@ public class DriverFactory {
 	public static void clearCookies() {
 		getDriver().manage().deleteAllCookies();
 	}
-
+	/**
+	 * Kill driver instance after last test.
+	 */
 	@AfterSuite
 	public static void closeDriverObject() {
 		for (WebDriver driver : webDriverPool) {
